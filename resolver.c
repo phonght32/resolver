@@ -8,6 +8,8 @@ typedef struct resolver {
 	resolver_func_stop 			stop;					/*!< Function stop resolver */
 	resolver_func_set_counter 	set_counter;			/*!< Function set counter */
 	resolver_func_get_counter 	get_counter;			/*!< Function get counter */
+	resolver_func_set_mode_up	set_mode_up;			/*!< Function set mode counter up */
+	resolver_func_set_mode_down set_mode_down;			/*!< Function set mode counter down */
 } resolver_t;
 
 resolver_handle_t resolver_init(void)
@@ -35,6 +37,8 @@ err_code_t resolver_set_config(resolver_handle_t handle, resolver_cfg_t cfg)
 	handle->stop = cfg.stop;
 	handle->set_counter = cfg.set_counter;
 	handle->get_counter = cfg.get_counter;
+	handle->set_mode_up = cfg.set_mode_up;
+	handle->set_mode_down = cfg.set_mode_down;
 
 	return ERR_CODE_SUCCESS;
 }
@@ -124,6 +128,44 @@ err_code_t resolver_set_value(resolver_handle_t handle, uint32_t value)
 	err_code_t err;
 
 	err = handle->set_counter(value);
+	if (err != ERR_CODE_SUCCESS)
+	{
+		return err;
+	}
+
+	return ERR_CODE_SUCCESS;
+}
+
+err_code_t resolver_set_mode_up(resolver_handle_t handle)
+{
+	/* Check if handle structure is NULL */
+	if (handle == NULL)
+	{
+		return ERR_CODE_NULL_PTR;
+	}
+
+	err_code_t err;
+
+	err = handle->set_mode_up();
+	if (err != ERR_CODE_SUCCESS)
+	{
+		return err;
+	}
+
+	return ERR_CODE_SUCCESS;
+}
+
+err_code_t resolver_set_mode_down(resolver_handle_t handle)
+{
+	/* Check if handle structure is NULL */
+	if (handle == NULL)
+	{
+		return ERR_CODE_NULL_PTR;
+	}
+
+	err_code_t err;
+
+	err = handle->set_mode_down();
 	if (err != ERR_CODE_SUCCESS)
 	{
 		return err;
