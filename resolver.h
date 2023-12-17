@@ -33,8 +33,7 @@ typedef err_code_t (*resolver_func_start)(void);
 typedef err_code_t (*resolver_func_stop)(void);
 typedef err_code_t (*resolver_func_set_counter)(uint32_t value);
 typedef err_code_t (*resolver_func_get_counter)(uint32_t *value);
-typedef err_code_t (*resolver_func_set_mode_up)(void);
-typedef err_code_t (*resolver_func_set_mode_down)(void);
+typedef err_code_t (*resolver_func_set_mode)(uint8_t mode);
 
 typedef struct resolver *resolver_handle_t;
 
@@ -44,8 +43,7 @@ typedef struct {
 	resolver_func_stop 			stop;					/*!< Function stop resolver */
 	resolver_func_set_counter 	set_counter;			/*!< Function set counter */
 	resolver_func_get_counter 	get_counter;			/*!< Function get counter */
-	resolver_func_set_mode_up	set_mode_up;			/*!< Function set mode counter up */
-	resolver_func_set_mode_down set_mode_down;			/*!< Function set mode counter down */
+	resolver_func_set_mode		set_mode;				/*!< Function set mode counter */
 } resolver_cfg_t;
 
 /*
@@ -131,26 +129,16 @@ err_code_t resolver_get_value(resolver_handle_t handle, uint32_t *value);
 err_code_t resolver_set_value(resolver_handle_t handle, uint32_t value);
 
 /*
- * @brief   Set mode counter up.
+ * @brief   Set mode counter.
  *
  * @param   handle Handle structure.
+ * @param 	mode Counter mode. 0: Up, 1: Down.
  *
  * @return
  *      - ERR_CODE_SUCCESS: Success.
  *      - Others:           Fail.
  */
-err_code_t resolver_set_mode_up(resolver_handle_t handle);
-
-/*
- * @brief   Set mode counter down.
- *
- * @param   handle Handle structure.
- *
- * @return
- *      - ERR_CODE_SUCCESS: Success.
- *      - Others:           Fail.
- */
-err_code_t resolver_set_mode_down(resolver_handle_t handle);
+err_code_t resolver_set_mode(resolver_handle_t handle, uint8_t mode);
 
 
 #ifdef __cplusplus
